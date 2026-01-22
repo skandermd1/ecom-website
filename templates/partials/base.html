@@ -1,0 +1,73 @@
+{% load static %}
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Shop — Home</title>
+  <link rel="stylesheet" href="{% static 'assets/css/style.css' %}">
+</head>
+<body>
+  <h1>welcome to my shop</h1>
+  
+  <header class="site-header">
+    <div class="container header-inner">
+      <a href="{% url 'index'%}" class="brand" style="text-decoration:none;">Shop</a>
+      <form id="searchForm" method="GET" class="search" action="{% url 'search_results' %}">
+        <input id="searchInput" type="search" name="q" placeholder="Search products...">
+        <button id="searchBtn" type="submit">Search</button>
+      </form>
+      <nav class="nav">
+        <a href="{% url 'index'%}" class="nav-link">Home</a>
+        <a href="{% url 'all_products' %}" class="nav-link">Shop</a>
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'profile'%}" class="nav-link">Account</a>
+        <a href="{% url 'userauth:logout'%}" class="nav-link">Logout</a>
+        {%else%}
+        <a href="{% url 'userauth:login'%}" class="nav-link">Login</a>
+        {%endif%}
+        {% if request.user.is_authenticated %}
+        <a href="{% url 'wishlist_view' %}" id="wishlistLink" class="nav-link" style="display:flex;align-items:center;gap:0.5rem;">
+          <span>Wishlist</span>
+          <span class="counter" id="wishCount">{{ wishlist_count|default:0 }}</span>
+        </a>
+        {% endif %}
+        <a href="{% url 'cart_view' %}" id="cartLink" class="nav-link" style="display:flex;align-items:center;gap:0.5rem;">
+          <span>Cart</span>
+          <span class="counter" id="cartCount">{{ cart_count|default:0 }}</span>
+        </a>
+      </nav>
+    </div>
+    {% if messages %}
+    <div class="container" style="padding:0 1.5rem 1rem;">
+      {% for message in messages %}
+        <div class="alert alert-{{ message.tags }}" style="padding:0.75rem 1rem;margin-bottom:0.5rem;border-radius:8px;background:{% if message.tags == 'success' %}#10b981{% elif message.tags == 'error' %}#ef4444{% else %}#3b82f6{% endif %};color:white;font-size:0.9rem;font-weight:500;">
+          {{ message }}
+        </div>
+      {% endfor %}
+    </div>
+    {% endif %}
+  </header>
+
+  <main>
+    {% block content %}
+    {% endblock %}
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <nav class="footer-nav">
+        <a href="{% url 'index'%}">Home</a>
+        <a href="{% url 'all_products' %}">Shop</a>
+        <a href="{% url 'category_list' %}">Categories</a>
+      </nav>
+      <div style="font-size:0.9rem;">© {% now "Y" %} Shop. All rights reserved.</div>
+    </div>
+  </footer>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="{% static 'assets/js/func.js' %}?v=8.1"></script>
+</body>
+</html>
+    
+    <!-- Old client-side JS disabled; products now render server-side via Django -->
+    <!-- <script src="{% static 'assets/js/main.js' %}"></script> -->

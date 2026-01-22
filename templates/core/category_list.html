@@ -1,0 +1,26 @@
+{% extends "partials/base.html" %}
+{% load static %}
+
+{% block content %}
+  <main class="container mt-5">
+    <h2>Categories</h2>
+
+    <section class="products categories-grid">
+      {% if categories %}
+        {% for cat in categories %}
+          <article class="card category-card">
+            {% if cat.image %}
+              <a href="{% url 'category_product_list' pk=cat.id %}"><img src="{{ cat.image.url }}" alt="{{ cat.title }}"></a>
+            {% else %}
+              <a href="{% url 'category_product_list' pk=cat.id %}"><img src="https://via.placeholder.com/400x300?text={{ cat.title|urlencode }}" alt="{{ cat.title }}"></a>
+            {% endif %}
+            <div class="title"><a href="{% url 'category_product_list' pk=cat.id %}">{{ cat.title }}</a></div>
+            <div class="meta" style="color:#6b7280;font-size:.95rem">{{ cat.NB_products.count }} products</div>
+          </article>
+        {% endfor %}
+      {% else %}
+        <p>No categories available.</p>
+      {% endif %}
+    </section>
+  </main>
+{% endblock %}

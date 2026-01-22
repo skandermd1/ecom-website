@@ -1,0 +1,30 @@
+from django.urls import path
+from core import views
+
+urlpatterns = [
+    path("home/", views.index, name="index"),
+    path("category/", views.category_list_view, name="category_list"),
+    path("category/<int:pk>/", views.category_product_list, name="category_product_list"),
+    path("product/<int:pk>/", views.product_detail_view, name="product_view"),
+    path("tag/<slug:tag_slug>/", views.tagged_products, name="tagged_products"),
+    path("ajax_review_submit/<int:pk>/", views.ajax_review_submission, name="ajax_review_submission"),
+    path("search/", views.search_results, name="search_results"),
+    path("all-products/", views.all_products, name="all_products"),
+    path("ajax_filter_products/", views.ajax_filter_products, name="ajax_filter_products"),
+    path("subscribe-newsletter/", views.newsletter_subscribe, name="subscribe_newsletter"),
+    path("profile/", views.profile, name="profile"),
+    path("ajax_add_to_cart/", views.ajax_add_to_cart, name="ajax_add_to_cart"),
+    path("ajax_update_cart_item/", views.ajax_update_cart_item, name="ajax_update_cart_item"),
+    path("ajax_delete_cart_item/", views.ajax_delete_cart_item, name="ajax_delete_cart_item"),
+    path("cart/", views.cart_view, name="cart_view"),
+    path("set-default-address/<int:pk>/", views.set_default_address, name="set_default_address"),
+    path("delete-address/<int:pk>/", views.delete_address, name="delete_address"),
+    path("edit-address/<int:pk>/", views.edit_address, name="edit_address"),
+    path("checkout/", views.checkout_view, name="checkout"),
+    path("create-payment/", views.create_payment, name="create_payment"),
+    path("execute-payment/", views.execute_payment, name="execute_payment"),
+    path("ajax_add_to_wishlist/", views.ajax_add_to_wishlist, name="ajax_add_to_wishlist"),
+    path("ajax_remove_from_wishlist/", views.ajax_remove_from_wishlist, name="ajax_remove_from_wishlist"),
+    path("ajax_wishlist_count/", views.ajax_wishlist_count, name="ajax_wishlist_count"),
+    path("wishlist/", views.wishlist_view, name="wishlist_view"),
+]

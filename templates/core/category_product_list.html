@@ -1,0 +1,41 @@
+{% extends "partials/base.html" %}
+
+{% load static %}
+{% block content %}
+  <main class="container">
+    <section class="hero">
+      <h1>{{ category.title }}</h1>
+      <p>Browse all products in this category — quick add to cart or wishlist.</p>
+    </section>
+
+    <section class="products" id="products">
+      {% if products %}
+        {% for prod in products %}
+          <article class="card">
+            {% if prod.image %}
+              <a href="{% url 'product_view' pk=prod.id%}"><img src="{{ prod.image.url }}" alt="{{ prod.title }}"></a>
+            {% else %}
+              <img src="https://via.placeholder.com/400x300?text=No+Image" alt="No image">
+            {% endif %}
+            <div class="title"><a href="{% url 'product_view' pk=prod.id%}">{{ prod.title }}</a></div>
+            <div class="price">${{ prod.price }}</div>
+            {% if prod.old_price %}
+              <div class="product-old-price">${{ prod.old_price }}</div>
+              <div class="product-discount">Discount: {{ prod.discount_percentage }}%</div>
+            {% endif %}
+            <div class="category">{{ prod.category.title }}</div>
+            <div class="actions">
+              <input type="hidden" class="product-id-{{ prod.id }}" value="{{ prod.id }}">
+              <input type="hidden" class="product-title-{{ prod.id }}" value="{{ prod.title }}">
+              <input type="hidden" class="product-price-{{ prod.id }}" value="{{ prod.price }}">
+              <button class="btn btn-primary add-to-cart-btn" data-product-id="{{ prod.id }}">Add to cart</button>
+              <button class="btn btn-ghost add-to-wishlist" data-product-id="{{ prod.id }}" onclick="addToWishlist(this)">♡</button>
+            </div>
+          </article>
+        {% endfor %}
+      {% else %}
+        <p>No products available in this category.</p>
+      {% endif %}
+    </section>
+  </main>
+{% endblock %}
